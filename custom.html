@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps Marker InfoWindow</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+function initialize() {
+  var myLatlng = new google.maps.LatLng(39.22471,  -106.00196);
+
+  var destruction =
+  // this theme is from snazzy maps, did not design myself
+    [
+      {
+          featureType: 'water',
+          elementType: 'geometry',
+          stylers: [
+              {
+                color: '#ffdfa6'
+              }
+          ]
+      },
+      {
+          featureType: 'landscape',
+          elementType: 'geometry',
+          stylers: [
+              {
+                  color: '#b52127'
+              }
+          ]
+      },
+      {
+          featureType: 'poi',
+          elementType: 'geometry',
+          stylers: [
+              {
+                  color: '#c5531b'
+              }
+          ]
+      },
+      {
+          featureType: 'road.highway',
+          elementType: 'geometry.fill',
+          stylers: [
+              {
+                  color:  '#74001b'
+              },
+              {
+                  lightness: -10
+              }
+          ]
+      },
+      {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [
+              {
+                  color: '#da3c3c'
+              }
+          ]
+      },
+      {
+          featureType: 'road.arterial',
+          elementType: 'geometry.fill',
+          stylers: [
+              {
+                  color: '#74001b'
+              }
+          ]
+      },
+      {
+          featureType: 'road.arterial',
+          elementType: 'geometry.stroke',
+          stylers: [
+              {
+                  color: '#da3c3c'
+              }
+          ]
+      },
+      {
+          featureType: 'road.local',
+          elementType: 'geometry.fill',
+          stylers: [
+              {
+                  color: '#990c19'
+              }
+          ]
+      },
+      {
+          elementType: 'labels.text.fill',
+          stylers: [
+              {
+                  color: '#ffffff'
+              }
+          ]
+      },
+      {
+          elementType: 'labels.text.stroke',
+          stylers: [
+              {
+                  color: '#74001b'
+              },
+              {
+                  lightness: -8
+              }
+          ]
+      },
+      {
+          featureType: 'transit',
+          elementType: 'geometry',
+          stylers: [
+              {
+                  color: '#6a0d10'
+              },
+              {
+                  visibility: 'on'
+              }
+          ]
+      },
+      {
+          featureType: 'administrative',
+          elementType: 'geometry',
+          stylers: [
+              {
+                  color: '#ffdfa6'
+              },
+              {
+                  weight: 0.4
+              }
+          ]
+      },
+      {
+          featureType: 'road.local',
+          elementType: 'geometry.stroke',
+          stylers: [
+              {
+                  visibility: 'off'
+              }
+          ]
+      }
+  ];
+
+  var mapOptions = {
+    zoom: 16,
+    center: myLatlng,
+    styles: destruction
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var contentString =
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1>South Park, Colorado</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>South Park</b>, is the greatest town on the planet. ' +
+      'Eric Cartman, the most influencial man of our generation lives here. '+
+      'Come to South Park and join the Cult Of Cartman'+
+      '<p><a href="http://www.southparkstudios.com/guide/characters/eric-cartman">'+
+      'click here for more info</a> '+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString,
+      // maxWidth: 200   ----We can also set a maxWidth
+  });
+
+  var iconBase = 'img/';
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: 'South Park, Colorado',
+      icon: iconBase + 'cart.png'
+
+  });
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
