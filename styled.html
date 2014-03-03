@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Maps - Simple Styled Map - Maui, Hawaii</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link href='http://fonts.googleapis.com/css?family=Sigmar+One' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+
+      body{
+        background:
+        radial-gradient(black 15%, transparent 16%) 0 0,
+        radial-gradient(black 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+        background-color:#282828;
+        background-size:16px 16px;
+      }
+
+      h1{
+        margin: 0 auto;
+        font-family: 'Sigmar One', cursive;
+        color: #fff;
+        max-width: 800px;
+        text-shadow: 0 1px 0 #ccc, 
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
+
+      }
+
+      h2{
+        color: #ffa500;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: 'Varela Round', sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .wrapper{
+        max-width: 960px;
+        margin: 20px auto;
+        -webkit-box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.75);
+        padding: 20px;
+        background: rgba(102,102,102,0.4);
+      }
+
+      .map-holder{
+        max-width: 800px;
+        height: 460px;
+        margin: 20px auto;
+        border-radius: 10px 10px 10px 10px;
+        -moz-border-radius: 10px 10px 10px 10px;
+        -webkit-border-radius: 10px 10px 10px 10px;
+        border: 10px solid #eee;
+      }
+
+      #map-canvas{
+        width: 100%;
+        height: 100%;
+      }
+
+      .bot-shadow{
+        position: relative;
+      }
+
+      .bot-shadow:before, .bot-shadow:after{
+        z-index: -1;
+        position: absolute;
+        content: "";
+        bottom: 15px;
+        left: 10px;
+        width: 50%;
+        top: 80%;
+        max-width:300px;
+        background: #000;
+        -webkit-box-shadow: 0 30px 25px #000;
+        -moz-box-shadow: 0 30px 25px #000;
+        box-shadow: 0 30px 25px #000;
+        -webkit-transform: rotate(-3deg);
+        -moz-transform: rotate(-3deg);
+        -o-transform: rotate(-3deg);
+        -ms-transform: rotate(-3deg);
+        transform: rotate(-3deg);
+      }
+
+      .bot-shadow:after{
+        -webkit-transform: rotate(3deg);
+        -moz-transform: rotate(3deg);
+        -o-transform: rotate(3deg);
+        -ms-transform: rotate(3deg);
+        transform: rotate(3deg);
+        right: 10px;
+        left: auto;
+      }
+
+      .content{
+        max-width: 800px;
+        margin: 10px auto;
+        padding: 10px;
+        background-color: #eee;
+        -webkit-box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.4);
+        -moz-box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.4);
+        box-shadow: 0px 0px 28px 1px rgba(0,0,0,0.4);
+        font-family: 'Varela Round', sans-serif;
+        font-size: 16px;
+        line-height: 36px;
+      }
+
+      .orange{
+        color: #ffa500;
+      }
+
+      .carbon{
+        color: #293542;
+      }
+
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+		var map;
+var brooklyn = new google.maps.LatLng(20.77910, -156.33381);
+
+var MY_MAPTYPE_ID = 'custom_style';
+
+function initialize() {
+
+  var featureOpts = [
+    {
+      stylers: [
+        { hue: '#ffa500' },
+        { visibility: 'simplified' },
+        { gamma: 0.5 },
+        { weight: 1.0 }
+      ]
+    },
+    {
+      featureType: 'water',
+      stylers: [
+        { color: '#293542' }
+      ]
+    }
+  ];
+
+  var mapOptions = {
+    zoom: 8,
+    center: brooklyn,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, MY_MAPTYPE_ID]
+    },
+    mapTypeId: MY_MAPTYPE_ID
+  };
+
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  var styledMapOptions = {
+    name: 'Custom Style'
+  };
+
+  var customMapType = new google.maps.StyledMapType(featureOpts, styledMapOptions);
+
+  map.mapTypes.set(MY_MAPTYPE_ID, customMapType);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body> 
+    <div class="wrapper">
+      <h1>Map Style: Carbon Blazer</h1>
+      <h2>By Dylan Hochreiter</h2>
+      <div class="map-holder bot-shadow">
+        <div id="map-canvas"></div>
+      </div>
+      <div class="content">
+        <p>This is a custom style for google maps. Working with the <a href="https://developers.google.com/maps/" target="blank">Google Maps Api</a> is easy and can really add another visual dynamic to yuor website. For the Carbon Blazer style, I use a carbon colour <span class="carbon">(#293542)</span> for the water of the map and I added an orange hue <span class="orange">(#ffa500)</span> for the rest of the map. </p>
+      </div>
+    </div>
+  </body>
+</html>
